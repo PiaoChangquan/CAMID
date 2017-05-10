@@ -1,0 +1,35 @@
+{
+    "epl_unit": {
+        "count": 3,
+        "statements": [
+            {
+                "statement_name": "insertotemp",
+                "expression": "insert into Temprature select * from sensor(dataType='Temprature')",
+                "listener_name":""
+            },
+            {
+                "statement_name": "insertohum",
+                "expression": "insert into Humidity select * from sensor(dataType='Humidity')",
+                "listener_name":""
+            },
+            {
+                "statement_name": "getavgtemp",
+                "expression": "select SensorAgentID, avg(value) as aValue from Temprature.win:time(20 s) group by SensorAgentID",
+                "listener_name":"publishtomq"
+            }
+        ]
+    },
+
+    "tinymq_unit": {
+        "zeromq_ip": "tcp://localhost:",
+        "zeromq_port": 5563,
+        "dataType":"SesnorData"
+    },
+    "fullmq_unit": {
+        "activemq_ip": "117.16.146.55",
+        "activemq_port": 55555
+    },
+    "restful_unit": {
+
+    }
+}
