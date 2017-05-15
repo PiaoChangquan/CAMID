@@ -1,5 +1,7 @@
 package org.camid.cep.configure;
 
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.camid.cep.inputadapter.MapDatatoJB;
@@ -15,11 +17,11 @@ public class EPLRegister {
 		log.info("start register EPL");
 		SampleStatement.createStatement(engine.getEPAdministrator());
 		EPServiceProviderJMX jxmb = new EPServiceProviderJMX(engine);
-
-		String expression = "select * from sensor(value<20)";
-		jxmb.createEPL(expression, "sensor1c", "AggergationListener");
-
-		MapDatatoJB.epRuntime = engine.getEPRuntime();
+		List<EPLinformation> Epl=EPLUnitConfig.EPLinformation;
+		for(int i=0;i<Epl.size();i++){
+			jxmb.createEPL(Epl.get(i).getStatement(), Epl.get(i).getName(),Epl.get(i).getListener());
+		}
+		
 
 		log.info("Register EPL Finish!");
 	}

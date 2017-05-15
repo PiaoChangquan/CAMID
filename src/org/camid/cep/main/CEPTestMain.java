@@ -13,22 +13,18 @@ import javax.management.remote.JMXServiceURL;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.camid.cep.configure.ConfigLoader;
 import org.camid.cep.configure.EPLRegister;
 import org.camid.cep.inputadapter.MapDatatoJB;
 import org.camid.cep.inputadapter.SensorMap;
-import org.camid.cep.inputadapter.SubThread;
 import org.camid.cep.jmx.EPServiceProviderJMX;
-import org.camid.cep.jmx.EPServiceProviderJMXMBean;
-import org.camid.cep.jmx.SampleStatement;
 import org.camid.cep.jmx.ServerShellConstants;
+import org.camid.cep.sqlite.DatabaseManager;
 
 import com.espertech.esper.client.Configuration;
 import com.espertech.esper.client.EPServiceProvider;
 import com.espertech.esper.client.EPServiceProviderManager;
 
 public class CEPTestMain {
-	private static final String CONF_PATH = "./CEP_config.json";
 
     private static Log log = LogFactory.getLog(CEPTestMain.class);
     private static MBeanServer mbs;
@@ -40,11 +36,14 @@ public class CEPTestMain {
 		
 		
 		
-		ConfigLoader.loadAllConfig(CONF_PATH);
-
+//		ConfigLoader.loadAllConfig(CONF_PATH);
+		DatabaseManager.setUpDatabase();
+		DatabaseManager.getEPL();
 		engine = EsperUnit();
 		RMIUnit(engine);
 		EPLRegister.EPLRegister(engine);
+
+		MapDatatoJB.epRuntime = engine.getEPRuntime();
 //		
 //		SubThread st = new SubThread("tcp://localhost:5563", "SensorData");
 //		new Thread(st).start();
@@ -89,23 +88,7 @@ public class CEPTestMain {
 	        JMXConnectorServer cs = JMXConnectorServerFactory.newJMXConnectorServer(jmxURL, null, mbs);
 	        cs.start();
 	        System.out.println("-finish!");
-	        
-	        
-	        // Initialize engine
-	     
-	        
-	        
-	        
-	        
-//	        SampleStatement.createStatement(engine.getEPAdministrator());
-//	        EPServiceProviderJMX jxmb= new EPServiceProviderJMX(engine);
-//	        
-//	        
-//	        String expression = "select * from sensor(value<20)";
-//	        jxmb.createEPL(expression, "sensor1c", "AggergationListener");
-//	        
-//	        MapDatatoJB.epRuntime = engine.getEPRuntime();
-//	        System.out.println("-finish!");
+
 	        
 	        // Register MBean
 	        log.info("Registering MBean");

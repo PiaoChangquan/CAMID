@@ -8,7 +8,7 @@ public class SQLiteJDBC
   {
     Connection c = null;
     Statement stmt = null;
-    createtable();
+//    createtable();
     try {
       Class.forName("org.sqlite.JDBC");
       c = DriverManager.getConnection("jdbc:sqlite:epl.db");
@@ -16,10 +16,12 @@ public class SQLiteJDBC
       System.out.println("Opened database successfully");
 
       stmt = c.createStatement();
-      
-      String sql = "INSERT INTO EPL (NAME,STATEMENT,LISTENER) " +
-                   "VALUES ('Paul','select SensorAgentID, avg(value) as aValue from Temprature.win:time(20 s) group by SensorAgentID', 'NUll' );"; 
-      stmt.executeUpdate(sql);
+      String sql2 = "DELETE from EPL where name= 'Paul';";
+      stmt.executeUpdate(sql2);
+//      String epl="insert into Humidity select * from sensor(dataType=''Humidity'')";
+//      String sql = "INSERT INTO EPL (NAME,STATEMENT,LISTENER) " +
+//                   "VALUES ('Paul','insert into Humidity select * from sensor(dataType=''Humidity'')', 'NUll' );"; 
+//      stmt.executeUpdate(sql);
 
 //      sql = "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) " +
 //            "VALUES (2, 'Allen', 25, 'Texas', 15000.00 );"; 
@@ -52,7 +54,7 @@ public class SQLiteJDBC
 	      System.out.println("Opened database successfully");
 
 	      stmt = c.createStatement();
-	      String sql = "CREATE TABLE EPL " +
+	      String sql = "CREATE TABLE IF NOT EXISTS EPL " +
 	                   "(NAME 	NVARCHAR(80)    NOT NULL, " + 
 	                   " STATEMENT      TEXT     NOT NULL, " + 
 	                   " LISTENER        NVARCHAR(80) NOT NULL)"; 

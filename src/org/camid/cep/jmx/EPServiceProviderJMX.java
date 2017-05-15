@@ -14,7 +14,7 @@ import com.espertech.esper.client.UpdateListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.camid.cep.listener.AggergationListener;
-
+import org.camid.cep.sqlite.DatabaseManager;
 public class EPServiceProviderJMX implements EPServiceProviderJMXMBean
 {
     private static Log log = LogFactory.getLog(EPServiceProviderJMX.class);
@@ -36,27 +36,29 @@ public class EPServiceProviderJMX implements EPServiceProviderJMXMBean
         engine.getEPAdministrator().createEPL(expression, statementName);
     }
 
-    public void createEPL(String expression, String statementName, UpdateListener listener)
-    {
-        log.error("Via Java Management JMX proxy: Creating statement '" + expression + "' named '" + statementName + "'");
-        EPStatement stmt = engine.getEPAdministrator().createEPL(expression, statementName);
-        stmt.addListener(listener);
-    }
+//    public void createEPL(String expression, String statementName, UpdateListener listener)
+//    {
+//        log.error("Via Java Management JMX proxy: Creating statement '" + expression + "' named '" + statementName + "'");
+//        EPStatement stmt = engine.getEPAdministrator().createEPL(expression, statementName);
+//        stmt.addListener(listener);
+//    }
     
     public void createEPL(String expression, String statementName, String listener)
     {
         log.error("Via Java Management JMX proxy: Creating statement '" + expression + "' named '" + statementName + "'");
+        System.out.println("ia Java Management JMX proxy: Creating statement '" + expression + "' named '" + statementName + "'");
         EPStatement stmt = engine.getEPAdministrator().createEPL(expression, statementName);
         if(listener.equals("AggergationListener")){
 
             stmt.addListener(new AggergationListener());
         }
-        
+        DatabaseManager.insertEPL(statementName, expression, listener);
     }
 
     public void destroy(String statementName)
     {
         log.error("Via Java Management JMX proxy: Destroying statement '" + statementName + "'");
         engine.getEPAdministrator().getStatement(statementName).destroy();
+        DatabaseManager.deleteEPL(statementName);
     }
 }

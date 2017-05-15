@@ -13,6 +13,6 @@ import com.espertech.esper.client.UpdateListener;
 public interface EPServiceProviderJMXMBean
 {
     public void createEPL(String expression, String statementName);
-    public void createEPL(String expression, String statementName, UpdateListener listener);
+    public void createEPL(String expression, String statementName, String listener);
     public void destroy(String statementName);
 }
