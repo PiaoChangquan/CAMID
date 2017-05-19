@@ -14,8 +14,14 @@ import javax.management.remote.JMXServiceURL;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.camid.cep.configure.EPLRegister;
+import org.camid.cep.datatype.DeviceData;
+import org.camid.cep.datatype.DeviceEvent;
+import org.camid.cep.datatype.GatewayHardware;
+import org.camid.cep.datatype.GatewayService;
+import org.camid.cep.datatype.RequestService;
 import org.camid.cep.inputadapter.MapDatatoJB;
 import org.camid.cep.inputadapter.SensorMap;
+import org.camid.cep.inputadapter.SubThread;
 import org.camid.cep.jmx.EPServiceProviderJMX;
 import org.camid.cep.jmx.ServerShellConstants;
 import org.camid.cep.sqlite.DatabaseManager;
@@ -45,8 +51,17 @@ public class CEPTestMain {
 
 		MapDatatoJB.epRuntime = engine.getEPRuntime();
 //		
-//		SubThread st = new SubThread("tcp://localhost:5563", "SensorData");
-//		new Thread(st).start();
+		SubThread st = new SubThread("tcp://localhost:5563", "DeviceData");
+		SubThread st1 = new SubThread("tcp://localhost:5563", "DeviceEvent");
+		SubThread st2 = new SubThread("tcp://localhost:5563", "GatewayHardware");
+		SubThread st3 = new SubThread("tcp://localhost:5563", "GatewayService");;
+		SubThread st4 = new SubThread("tcp://localhost:5563", "RequestService");
+		new Thread(st).start();
+		new Thread(st1).start();
+		new Thread(st2).start();
+		new Thread(st3).start();
+		new Thread(st4).start();
+		
 		
 		
 		
@@ -104,12 +119,17 @@ public class CEPTestMain {
 		   log.info("Getting Esper engine instance");
 	        System.out.print(" Getting Esper engine instance......");
 	        Configuration configuration = new Configuration();
-	        configuration.addEventType("sensor", SensorMap.class.getName());
+	        
+	        configuration.addEventType("DeviceData", DeviceData.class.getName());
+	        configuration.addEventType("DeviceEvent", DeviceEvent.class.getName());
+	        configuration.addEventType("GatewayHardware", GatewayHardware.class.getName());
+	        configuration.addEventType("GatewayService", GatewayService.class.getName());
+	        configuration.addEventType("RequestService", RequestService.class.getName());
+	        
 	        EPServiceProvider engine = EPServiceProviderManager.getDefaultProvider(configuration);
-	        System.out.println("-finish!");
+	        
 	        	    
 	        log.info("Creating sample statement");
-	        System.out.print("Creating sample statement.......");
 	        return engine;
 	}
 	

@@ -15,7 +15,10 @@ public class EPLRegister {
     private static Log log = LogFactory.getLog(EPLRegister.class);
 	public static void EPLRegister(EPServiceProvider engine) {
 		log.info("start register EPL");
-		SampleStatement.createStatement(engine.getEPAdministrator());
+//		SampleStatement.createStatement(engine.getEPAdministrator());
+		
+		
+		
 		EPServiceProviderJMX jxmb = new EPServiceProviderJMX(engine);
 		List<EPLinformation> Epl=EPLUnitConfig.EPLinformation;
 		for(int i=0;i<Epl.size();i++){

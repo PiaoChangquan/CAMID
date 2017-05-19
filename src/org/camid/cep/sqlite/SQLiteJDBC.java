@@ -16,7 +16,7 @@ public class SQLiteJDBC
       System.out.println("Opened database successfully");
 
       stmt = c.createStatement();
-      String sql2 = "DELETE from EPL where name= 'Paul';";
+      String sql2 = "DELETE from EPL where name= 'sensor1c';";
       stmt.executeUpdate(sql2);
 //      String epl="insert into Humidity select * from sensor(dataType=''Humidity'')";
 //      String sql = "INSERT INTO EPL (NAME,STATEMENT,LISTENER) " +
