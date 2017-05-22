@@ -13,7 +13,7 @@ import com.espertech.esper.client.EPStatement;
 import com.espertech.esper.client.UpdateListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.camid.cep.listener.AggergationListener;
+import org.camid.cep.listener.*;
 import org.camid.cep.sqlite.DatabaseManager;
 public class EPServiceProviderJMX implements EPServiceProviderJMXMBean
 {
@@ -48,9 +48,18 @@ public class EPServiceProviderJMX implements EPServiceProviderJMXMBean
         log.error("Via Java Management JMX proxy: Creating statement '" + expression + "' named '" + statementName + "'");
 //        System.out.println("ia Java Management JMX proxy: Creating statement '" + expression + "' named '" + statementName + "'");
         EPStatement stmt = engine.getEPAdministrator().createEPL(expression, statementName);
-        if(listener.equals("AggergationListener")){
+        if(listener.equals("RestartDeviceListener")){
 
-            stmt.addListener(new AggergationListener());
+            stmt.addListener(new RestartDeviceListener());
+        }else if(listener.equals("StartDeviceListener")){
+
+            stmt.addListener(new StartDeviceListener());
+        }else if(listener.equals("StopDeviceListener")){
+
+            stmt.addListener(new StopDeviceListener());
+        }else if(listener.equals("RestartDeviceListener")){
+
+            stmt.addListener(new RestartDeviceListener());
         }
         DatabaseManager.insertEPL(statementName, expression, listener);
     }
