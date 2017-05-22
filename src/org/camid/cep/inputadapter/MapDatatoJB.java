@@ -1,8 +1,6 @@
 package org.camid.cep.inputadapter;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.camid.cep.datatype.DeviceData;
