@@ -12,8 +12,8 @@ import org.camid.cep.configure.EPLinformation;
 public class DatabaseManager {
 
 	private static Log log = LogFactory.getLog(DatabaseManager.class);
-	private Connection c;
-	private Statement stmt;
+//	private Connection c;
+//	private Statement stmt;
 
 	public static void setUpDatabase() {
 		Connection c = null;
