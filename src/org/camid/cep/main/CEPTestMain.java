@@ -37,12 +37,6 @@ public class CEPTestMain {
     private static EPServiceProvider engine;
 	public static void main(String[] args) throws Exception {
 
-		
-		
-		
-		
-		
-//		ConfigLoader.loadAllConfig(CONF_PATH);
 		DatabaseManager.setUpDatabase();
 		DatabaseManager.getEPL();
 		engine = EsperUnit();
@@ -50,21 +44,18 @@ public class CEPTestMain {
 		EPLRegister.EPLRegister(engine);
 
 		MapDatatoJB.epRuntime = engine.getEPRuntime();
-//		
+		
 		SubThread st = new SubThread("tcp://localhost:5563", "DeviceData");
 		SubThread st1 = new SubThread("tcp://localhost:5563", "DeviceEvent");
 		SubThread st2 = new SubThread("tcp://localhost:5563", "GatewayHardware");
 		SubThread st3 = new SubThread("tcp://localhost:5563", "GatewayService");;
 		SubThread st4 = new SubThread("tcp://localhost:5563", "RequestService");
+		
 		new Thread(st).start();
 		new Thread(st1).start();
 		new Thread(st2).start();
 		new Thread(st3).start();
 		new Thread(st4).start();
-		
-		
-		
-		
 		
 		
 	}

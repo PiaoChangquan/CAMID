@@ -79,6 +79,7 @@ public class DatabaseManager {
 	public static void insertEPL(String name, String expression, String listener) {
 		Connection c = null;
 		Statement stmt = null;
+		String Statement=null;
 		try {
 			Class.forName("org.sqlite.JDBC");
 			c = DriverManager.getConnection("jdbc:sqlite:epl.db");
@@ -87,13 +88,15 @@ public class DatabaseManager {
 
 			log.info("Connected database");
 			stmt = c.createStatement();
-			String sql = "INSERT INTO EPL (NAME,STATEMENT,LISTENER) " + "VALUES ('" + name + "','" + expression + "', '"
+			
+			Statement=expression.replaceAll("'", "''");	
+			
+			String sql = "INSERT INTO EPL (NAME,STATEMENT,LISTENER) " + "VALUES ('" + name + "','" + Statement + "', '"
 					+ listener + "' );";
 			
-			
+			log.info("Insert EPL into databse: "+sql);
 			stmt.executeUpdate(sql);
 
-			log.info("Insert EPL into databse: "+sql);
 			stmt.close();
 			c.commit();
 			c.close();

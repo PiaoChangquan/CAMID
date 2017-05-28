@@ -46,7 +46,6 @@ public class EPServiceProviderJMX implements EPServiceProviderJMXMBean
     public void createEPL(String expression, String statementName, String listener)
     {
         log.error("Via Java Management JMX proxy: Creating statement '" + expression + "' named '" + statementName + "'");
-//        System.out.println("ia Java Management JMX proxy: Creating statement '" + expression + "' named '" + statementName + "'");
         EPStatement stmt = engine.getEPAdministrator().createEPL(expression, statementName);
         if(listener.equals("RestartDeviceListener")){
 
